@@ -1,5 +1,6 @@
 package cap.capServer.Controller;
 
+import cap.capServer.Dto.FileUploadResponse;
 import cap.capServer.Service.S3Uploader;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,13 +29,14 @@ public class S3Controller {
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
     @PostMapping(value = "/user/upload")
-    public MultipartFile uploadFile(
+    public FileUploadResponse uploadFile(
             @Parameter(description = "사용자 닉네임", required = true, example = "minho")
             @RequestPart(value = "name") String nickname,
             @Parameter(description = "오디오 파일", required = true, example = "song.mp3")
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
 
+        FileUploadResponse response = new FileUploadResponse();
         String fileName = "";
         if(file != null){ // 파일 업로드한 경우에만
 
@@ -45,8 +47,9 @@ public class S3Controller {
                 e.printStackTrace();
             }
         }
-
-        return file;
+        response.setNickname(nickname);
+        response.setFile(file);
+        return response;
     }
 }
 

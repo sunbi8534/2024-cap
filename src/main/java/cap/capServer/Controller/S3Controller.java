@@ -5,12 +5,16 @@ import cap.capServer.Service.S3Uploader;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -29,7 +33,7 @@ public class S3Controller {
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
     @PostMapping(value = "/user/upload")
-    public FileUploadResponse uploadFile(
+    public ResponseEntity<byte[]> uploadFile(
             @Parameter(description = "사용자 닉네임", required = true, example = "minho")
             @RequestPart(value = "name") String nickname,
             @Parameter(description = "오디오 파일", required = true, example = "song.mp3")
@@ -47,9 +51,15 @@ public class S3Controller {
                 e.printStackTrace();
             }
         }
-        response.setNickname(nickname);
-        response.setFile(file);
-        return response;
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf(file.getContentType()))
+                    .body(file.getBytes());
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

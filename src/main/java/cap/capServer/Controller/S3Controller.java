@@ -32,7 +32,7 @@ public class S3Controller {
     }
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
-    @PostMapping(value = "/user/upload")
+    @PostMapping(value = "/user/generate")
     public ResponseEntity<byte[]> uploadFile(
             @Parameter(description = "사용자 닉네임", required = true, example = "minho")
             @RequestPart(value = "name") String nickname,

@@ -14,8 +14,8 @@ public class S3Repository {
     public S3Repository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public void saveFileURL(String fileName, String fileURL) {
-        String insertSql = "insert into url(filename, url) values (?, ?);";
-        jdbcTemplate.update(insertSql, fileName, fileURL);
+    public void saveFileURL(String fileName, String fileURL, String nickname) {
+        String insertSql = "insert into url(filename, nickname, url, progress) values (?, ?, ?, ?);";
+        jdbcTemplate.update(insertSql, fileName, nickname, fileURL, false);
     }
 }

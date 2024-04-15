@@ -29,12 +29,12 @@ public class UserRepository {
         return musicList;
     }
 
-    public List<GetMusicResponse> getMusicUrl(String nickname, String musicName) {
+    public GetMusicResponse getMusicUrl(String nickname, String musicName) {
         String sql = "select url from url where nickname = ? and filename = ?;";
         List<GetMusicResponse> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
             return new GetMusicResponse(musicName, rs.getString("url"));
         }, nickname, musicName);
 
-        return urls;
+        return urls.get(0);
     }
 }

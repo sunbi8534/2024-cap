@@ -1,5 +1,6 @@
 package cap.capServer.Controller;
 
+import cap.capServer.Dto.GetMusicResponse;
 import cap.capServer.Dto.MusicListDto;
 import cap.capServer.Service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/user/music")
-    public String getMusicUrl(@RequestParam String username, String music) {
+    public GetMusicResponse getMusicUrl(@RequestParam String username, String music) {
         return userService.getMusicUrl(username, music);
     }
 }

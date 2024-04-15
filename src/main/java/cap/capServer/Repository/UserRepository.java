@@ -1,6 +1,7 @@
 package cap.capServer.Repository;
 
 
+import cap.capServer.Dto.GetMusicResponse;
 import cap.capServer.Dto.MusicListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,10 @@ public class UserRepository {
         return musicList;
     }
 
-    public String getMusicUrl(String nickname, String musicName) {
+    public GetMusicResponse getMusicUrl(String nickname, String musicName) {
         String sql = "select url from url where nickname = ? and filename = ?;";
-        List<String> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
-            return new String(rs.getString("url"));
+        List<GetMusicResponse> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return new GetMusicResponse(musicName, rs.getString("url"));
         });
 
         return urls.get(0);

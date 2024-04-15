@@ -1,5 +1,6 @@
 package cap.capServer.Service;
 
+import cap.capServer.Dto.GetMusicResponse;
 import cap.capServer.Dto.MusicListDto;
 import cap.capServer.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserService {
         return userRepository.getMusicProgress(nickname);
     }
 
-    public String getMusicUrl(String nickname, String fileName) {
+    public GetMusicResponse getMusicUrl(String nickname, String fileName) {
         return userRepository.getMusicUrl(nickname, fileName);
     }
 }

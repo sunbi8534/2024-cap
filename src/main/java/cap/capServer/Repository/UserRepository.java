@@ -33,7 +33,7 @@ public class UserRepository {
         String sql = "select url from url where nickname = ? and filename = ?;";
         List<GetMusicResponse> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
             return new GetMusicResponse(musicName, rs.getString("url"));
-        });
+        }, nickname, musicName);
 
         return urls.get(0);
     }

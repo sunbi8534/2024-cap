@@ -20,9 +20,9 @@ public class UserRepository {
     }
 
     public List<MusicListDto> getMusicProgress(String nickname) {
-        String sql = "select filname, progress from url where nickname = ?;";
+        String sql = "select id, filname, progress from url where nickname = ?;";
         List<MusicListDto> musicList = jdbcTemplate.query(sql, (rs, rowNum) -> {
-            return new MusicListDto(rs.getString("filename"), rs.getBoolean("progress"));
+            return new MusicListDto(rs.getInt("id"), rs.getString("filename"), rs.getBoolean("progress"));
         }, nickname);
 
         return musicList;

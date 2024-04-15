@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class MusicListDto {
+    int id;
     String title;
     boolean progress;
 

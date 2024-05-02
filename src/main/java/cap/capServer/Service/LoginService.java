@@ -1,7 +1,10 @@
 package cap.capServer.Service;
 
+import cap.capServer.Dto.UserEnrollDto;
 import cap.capServer.Repository.LoginRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +18,19 @@ public class LoginService {
     }
     public String checkUser(String id, String pw) {
         return loginRepository.checkUser(id, makeHashcode(pw));
+    }
+
+    public String checkDupNickname(String nickname) {
+        return loginRepository.checkDupNickname(nickname);
+    }
+
+    public String checkDupId(String id) {
+        return loginRepository.checkDupId(id);
+    }
+
+    public void enrollUser(UserEnrollDto user) {
+        user.setPw(makeHashcode(user.getPw()));
+        loginRepository.enrollUser(user);
     }
 
     public String makeHashcode(String str) {

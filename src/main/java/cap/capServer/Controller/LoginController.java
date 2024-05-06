@@ -54,7 +54,7 @@ public class LoginController {
         return loginService.checkDupId(id);
     }
 
-    @Operation(summary = "회원가입 유저 등록 API", description = "UserEnrollDto를 토대로 유저를 등록한다.")
+    @Operation(summary = "회원가입 유저 등록 API", description = "id,pw,nickname 정보를 가지고 유저를 등록합니다.")
     @PostMapping("/user/enroll")
     public void enrollUser(
             @Parameter(description = "사용자 정보 객체", required = true)

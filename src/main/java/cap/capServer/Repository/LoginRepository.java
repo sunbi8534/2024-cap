@@ -23,15 +23,13 @@ public class LoginRepository {
         String checkSql = "select nickname, id from user where id = ? and pw = ?;";
         List<LoginResultDto> result = jdbcTemplate.query(checkSql, (rs, rowNum) -> {
             return new LoginResultDto(
-                    rs.getString("nickname"), rs.getString("id"));
+                    rs.getString("nickname"), rs.getString("id"), "true");
         }, id, pw);
 
         if(result.isEmpty()) {
-            return null;
+            return new LoginResultDto("", "", "false");
         }
         else {
-            System.out.println(result.get(0).getUsername());
-            System.out.println(result.get(0).getId());
             return result.get(0);
         }
 

@@ -10,5 +10,6 @@ import lombok.Setter;
 public class LoginResultDto {
     String username;
     String id;
+    String success;
 
 }

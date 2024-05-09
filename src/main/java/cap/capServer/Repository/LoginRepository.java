@@ -30,7 +30,8 @@ public class LoginRepository {
             return null;
         }
         else {
-            System.out.println(result.get(0));
+            System.out.println(result.get(0).getUsername());
+            System.out.println(result.get(0).getId());
             return result.get(0);
         }
 

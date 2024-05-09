@@ -30,6 +30,7 @@ public class LoginController {
             @RequestParam String id,
             @Parameter(description = "사용자 비밀번호", required = true, example = "8534")
             @RequestParam String pw) {
+        System.out.println(id + pw);
         return loginService.checkUser(id, pw);
     }
 

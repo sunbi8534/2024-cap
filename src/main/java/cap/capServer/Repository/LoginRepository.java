@@ -26,10 +26,15 @@ public class LoginRepository {
                     rs.getString("nickname"), rs.getString("id"));
         }, id, pw);
 
-        if(result.isEmpty())
+        if(result.isEmpty()) {
             return null;
-        else
+        }
+        else {
+            System.out.println(result.get(0));
             return result.get(0);
+        }
+
+
     }
 
     public String checkDupNickname(String nickname) {

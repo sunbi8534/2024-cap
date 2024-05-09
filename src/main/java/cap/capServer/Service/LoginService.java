@@ -1,5 +1,6 @@
 package cap.capServer.Service;
 
+import cap.capServer.Dto.LoginResultDto;
 import cap.capServer.Dto.UserEnrollDto;
 import cap.capServer.Repository.LoginRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class LoginService {
     public LoginService(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
-    public String checkUser(String id, String pw) {
+    public LoginResultDto checkUser(String id, String pw) {
         return loginRepository.checkUser(id, makeHashcode(pw));
     }
 

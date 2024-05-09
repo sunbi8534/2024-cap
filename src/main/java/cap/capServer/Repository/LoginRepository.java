@@ -1,5 +1,6 @@
 package cap.capServer.Repository;
 
+import cap.capServer.Dto.LoginResultDto;
 import cap.capServer.Dto.UserEnrollDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,17 +19,17 @@ public class LoginRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public String checkUser(String id, String pw) {
-        String checkSql = "select nickname from user where id = ? and pw = ?;";
-        List<String> nickname = jdbcTemplate.query(checkSql, (rs, rowNum) -> {
-            return new String(
-                    rs.getString("nickname"));
+    public LoginResultDto checkUser(String id, String pw) {
+        String checkSql = "select nickname, id from user where id = ? and pw = ?;";
+        List<LoginResultDto> result = jdbcTemplate.query(checkSql, (rs, rowNum) -> {
+            return new LoginResultDto(
+                    rs.getString("nickname"), rs.getString("id"));
         }, id, pw);
 
-        if(nickname.isEmpty())
-            return "false";
+        if(result.isEmpty())
+            return null;
         else
-            return nickname.get(0);
+            return result.get(0);
     }
 
     public String checkDupNickname(String nickname) {

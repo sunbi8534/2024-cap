@@ -1,5 +1,6 @@
 package cap.capServer.Controller;
 
+import cap.capServer.Dto.LoginResultDto;
 import cap.capServer.Dto.UserEnrollDto;
 import cap.capServer.Service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +25,7 @@ public class LoginController {
     })
     @Operation(summary = "로그인 API", description = "id와 pw를 받아 로그인을 시도합니다.")
     @GetMapping("/user/login")
-    public String login(
+    public LoginResultDto login(
             @Parameter(description = "사용자 id", required = true, example = "sunbi8534")
             @RequestParam String id,
             @Parameter(description = "사용자 비밀번호", required = true, example = "8534")

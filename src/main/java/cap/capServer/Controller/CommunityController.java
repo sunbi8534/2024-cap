@@ -5,11 +5,13 @@ import cap.capServer.Dto.ResponsePostDto;
 import cap.capServer.Dto.ResponsePostListDto;
 import cap.capServer.Service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Tag(name = "Community-controller", description = "게시판과 관련된 처리를 하는 컨트롤러 입니다.") //클래스에 대한 설명을 할 수 있는 어노테이션이다.
 public class CommunityController {
     CommunityService communityService;
 
@@ -18,7 +20,7 @@ public class CommunityController {
     }
 
     @Operation(summary = "음악 공유 API", description = "음악 게시판 공유에 필요한 정보들을 받은 후 게시판에 등록한다.")
-    @PostMapping("/user/share")
+    @PostMapping("/community/share")
     public String post(@RequestBody RequestPostDto postDto) {
         return communityService.post(postDto);
     }

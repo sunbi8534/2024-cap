@@ -20,7 +20,7 @@ public class CommunityController {
     }
 
     @Operation(summary = "음악 공유 API", description = "음악 게시판 공유에 필요한 정보들을 받은 후 게시판에 등록한다.")
-    @PostMapping("/community/share")
+    @PostMapping("/user/share")
     public String post(@RequestBody RequestPostDto postDto) {
         return communityService.post(postDto);
     }

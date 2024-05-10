@@ -23,7 +23,13 @@ public class CommunityRepository {
         }, postDto.getUsername(), postDto.getMediaTitle());
         String insertSql = "insert into post(username, mediaTitle, mediaURL, postTitle, postContent) " +
                 "values (?, ?, ?, ?, ?);";
-        jdbcTemplate.update(insertSql, postDto.getUsername(), postDto.getMediaTitle(), url.get(0), postDto.getPostTitle(), postDto.getPostContent());
+        String mediaURL;
+
+        if (url.isEmpty())
+            mediaURL = "";
+        else
+            mediaURL = url.get(0);
+        jdbcTemplate.update(insertSql, postDto.getUsername(), postDto.getMediaTitle(), mediaURL, postDto.getPostTitle(), postDto.getPostContent());
 
         return "true";
     }

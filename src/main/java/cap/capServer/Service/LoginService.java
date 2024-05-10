@@ -29,9 +29,9 @@ public class LoginService {
         return loginRepository.checkDupId(id);
     }
 
-    public void enrollUser(UserEnrollDto user) {
+    public String enrollUser(UserEnrollDto user) {
         user.setPw(makeHashcode(user.getPw()));
-        loginRepository.enrollUser(user);
+        return loginRepository.enrollUser(user);
     }
 
     public String makeHashcode(String str) {

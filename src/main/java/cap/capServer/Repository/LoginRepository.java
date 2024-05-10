@@ -60,9 +60,10 @@ public class LoginRepository {
             return "false";
     }
 
-    public void enrollUser(UserEnrollDto user) {
+    public String enrollUser(UserEnrollDto user) {
         String insertSql = "insert into user(id, pw, nickname) values (?, ?, ?);";
         jdbcTemplate.update(insertSql, user.getId(), user.getPw(), user.getNickname());
+        return "true";
     }
 }
 

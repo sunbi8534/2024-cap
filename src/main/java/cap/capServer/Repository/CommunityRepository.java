@@ -45,8 +45,7 @@ public class CommunityRepository {
     }
 
     public ResponsePostDto getPost(int id) {
-        String getSql = "select username, mediaTitle, postTitle, postContent, mediaURL" +
-                "from post where id = ?;";
+        String getSql = "select username, mediaTitle, postTitle, postContent, mediaURL from post where id = ?;";
         List<ResponsePostDto> post = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return new ResponsePostDto(id, rs.getString("username"), rs.getString("mediaTitle"),
                     rs.getString("postTitle"), rs.getString("postContent"), rs.getString("mediaURL"));

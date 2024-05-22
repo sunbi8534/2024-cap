@@ -1,9 +1,6 @@
 package cap.capServer.Controller;
 
-import cap.capServer.Dto.RequestPostDto;
-import cap.capServer.Dto.ResponsePostDto;
-import cap.capServer.Dto.ResponsePostListDto;
-import cap.capServer.Dto.WriteCommentDto;
+import cap.capServer.Dto.*;
 import cap.capServer.Service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,8 +47,8 @@ public class CommunityController {
 
     @PostMapping("/community/likeComment")
     public boolean likeComment(@RequestParam int postId, @RequestParam int commentId,
-                               @RequestBody String username) {
-        return communityService.likeComment(postId, commentId, username);
+                               @RequestBody LikeCommentDto dto) {
+        return communityService.likeComment(postId, commentId, dto.getUsername());
     }
 
 }

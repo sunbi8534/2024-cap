@@ -64,7 +64,7 @@ public class CommunityRepository {
         }, id);
 
         ResponsePostDto responsePostDto = new ResponsePostDto(post.get(0));
-        String hasLikedSql = "select id from where username = ? and post_id = ?;";
+        String hasLikedSql = "select id from likePost where username = ? and post_id = ?;";
         List<Integer> hasLikedId = jdbcTemplate.query(hasLikedSql, (rs, rowNum) -> {
             return Integer.valueOf(rs.getInt("id"));
         }, username, responsePostDto.getId());

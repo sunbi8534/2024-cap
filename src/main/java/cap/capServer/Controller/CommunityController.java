@@ -34,8 +34,8 @@ public class CommunityController {
 
     @Operation(summary = "id에 해당하는 게시글 정보를 얻는 API", description = "id에 해당하는 게시글 정보를 반환한다.")
     @GetMapping("/community/post")
-    public ResponsePostDto getPost(@RequestParam int id) {
-        return communityService.getPost(id);
+    public ResponsePostDto getPost(@RequestParam int id, @RequestParam String username) {
+        return communityService.getPost(id, username);
     }
 
     @PostMapping("/community/likePost")

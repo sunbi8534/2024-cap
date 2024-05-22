@@ -24,8 +24,8 @@ public class CommunityService {
         return communityRepository.getPosts(username);
     }
 
-    public ResponsePostDto getPost(int id) {
-        return communityRepository.getPost(id);
+    public ResponsePostDto getPost(int id, String username) {
+        return communityRepository.getPost(id, username);
     }
 
     public boolean likePost(int id, String username) {

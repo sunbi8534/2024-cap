@@ -55,7 +55,7 @@ public class CommunityRepository {
         return posts;
     }
 
-    public ResponsePostDto getPost(int id) {
+    public ResponsePostDto getPost(int id, String username) {
         String getSql = "select username, mediaTitle, postTitle, postContent, mediaURL, numLikes from post where id = ?;";
         List<GetPostInfoDto> post = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return new GetPostInfoDto(id, rs.getString("username"), rs.getString("mediaTitle"),
@@ -67,7 +67,7 @@ public class CommunityRepository {
         String hasLikedSql = "select id from where username = ? and post_id = ?;";
         List<Integer> hasLikedId = jdbcTemplate.query(hasLikedSql, (rs, rowNum) -> {
             return Integer.valueOf(rs.getInt("id"));
-        }, responsePostDto.getUsername(), responsePostDto.getId());
+        }, username, responsePostDto.getId());
         if(!hasLikedId.isEmpty()) {
             responsePostDto.setHasLiked(true);
         }

@@ -7,12 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ResponsePostListDto {
-    int id;
+public class WriteCommentDto {
     String username;
-    String mediaTitle;
-    String postTitle;
-    int numLikes;
-    boolean hasLiked;
-    int numComments;
+    String content;
 }

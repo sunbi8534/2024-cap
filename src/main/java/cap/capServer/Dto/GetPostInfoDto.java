@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-public class ResponsePostListDto {
+public class GetPostInfoDto {
     int id;
     String username;
     String mediaTitle;
     String postTitle;
+    String postContent;
+    String mediaURL;
     int numLikes;
     boolean hasLiked;
-    int numComments;
 }

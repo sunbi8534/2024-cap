@@ -3,6 +3,7 @@ package cap.capServer.Controller;
 import cap.capServer.Dto.RequestPostDto;
 import cap.capServer.Dto.ResponsePostDto;
 import cap.capServer.Dto.ResponsePostListDto;
+import cap.capServer.Dto.WriteCommentDto;
 import cap.capServer.Service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,8 +28,8 @@ public class CommunityController {
 
     @Operation(summary = "게시글 리스트를 얻는 API", description = "게시판 리스트 목록을 반환한다.")
     @GetMapping("/community/postlist")
-    public List<ResponsePostListDto> getPosts() {
-        return communityService.getPosts();
+    public List<ResponsePostListDto> getPosts(@RequestParam String username) {
+        return communityService.getPosts(username);
     }
 
     @Operation(summary = "id에 해당하는 게시글 정보를 얻는 API", description = "id에 해당하는 게시글 정보를 반환한다.")
@@ -36,4 +37,21 @@ public class CommunityController {
     public ResponsePostDto getPost(@RequestParam int id) {
         return communityService.getPost(id);
     }
+
+    @PostMapping("/community/likePost")
+    public boolean likePost(@RequestParam int id, @RequestBody String username) {
+        return communityService.likePost(id, username);
+    }
+
+    @PostMapping("/community/writeComment")
+    public boolean writeComment(@RequestParam int postId, @RequestBody WriteCommentDto writeCommentDto) {
+        return communityService.writeComment(postId, writeCommentDto);
+    }
+
+    @PostMapping("/community/likeComment")
+    public boolean likeComment(@RequestParam int postId, @RequestParam int commentId,
+                               @RequestBody String username) {
+        return communityService.likeComment(postId, commentId, username);
+    }
+
 }

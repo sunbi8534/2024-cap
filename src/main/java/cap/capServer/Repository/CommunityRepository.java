@@ -107,6 +107,7 @@ public class CommunityRepository {
     }
 
     public boolean likeComment(int postId, int commentId, String username) {
+        System.out.println(username);
         String sql = "insert into likeComment(username, post_id, comment_id) values (?, ?, ?);";
         String updateSql = "update comment set numLikes = numLikes + 1 where id = ?;";
         jdbcTemplate.update(sql, username, postId, commentId);

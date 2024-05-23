@@ -103,6 +103,9 @@ public class CommunityRepository {
     public boolean writeComment(int postId, WriteCommentDto writeCommentDto) {
         String sql = "insert into comment(post_id, username, content, numLikes) values (?, ?, ?, ?);";
         jdbcTemplate.update(sql, postId, writeCommentDto.getUsername(), writeCommentDto.getContent(), 0);
+
+        String updateSql = "update post set numComments = numComments + 1 where id = ?;";
+        jdbcTemplate.update(updateSql, postId);
         return true;
     }
 

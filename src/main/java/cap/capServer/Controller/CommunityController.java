@@ -47,8 +47,8 @@ public class CommunityController {
 
     @PostMapping("/community/likeComment")
     public boolean likeComment(@RequestParam int postId, @RequestParam int commentId,
-                               @RequestBody LikeCommentDto dto) {
-        return communityService.likeComment(postId, commentId, dto.getUsername());
+                               @RequestParam String username) {
+        return communityService.likeComment(postId, commentId, username);
     }
 
 }

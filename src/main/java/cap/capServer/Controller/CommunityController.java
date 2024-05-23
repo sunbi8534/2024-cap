@@ -36,7 +36,7 @@ public class CommunityController {
     }
 
     @PostMapping("/community/likePost")
-    public boolean likePost(@RequestParam int id, @RequestBody String username) {
+    public boolean likePost(@RequestParam int id, @RequestParam String username) {
         return communityService.likePost(id, username);
     }
 

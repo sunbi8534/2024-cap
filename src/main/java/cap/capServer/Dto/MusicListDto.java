@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class   MusicListDto {
+public class MusicListDto {
     int id;
     String title;
     boolean progress;

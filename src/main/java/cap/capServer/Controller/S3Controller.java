@@ -34,9 +34,9 @@ public class S3Controller {
     public boolean uploadFile(
             @RequestPart(value = "username") String username,
             @RequestPart(value = "mediaTitle") String mediaTitle,
-            @RequestPart(value = "mode") String mediaMode,
-            @RequestPart(value = "mode") String instrument,
-            @RequestPart(value = "mode") String content_name,
+            @RequestPart(value = "mediaMode") String mediaMode,
+            @RequestPart(value = "instrument") String instrument,
+            @RequestPart(value = "content_name") String content_name,
             @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart(value = "tags")List<String> tags
             ) {

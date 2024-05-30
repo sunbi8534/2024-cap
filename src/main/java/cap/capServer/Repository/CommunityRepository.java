@@ -90,10 +90,19 @@ public class CommunityRepository {
     }
 
     public boolean likePost(int id, String username) {
+        String checkSql = "select id from likePost where username = ? and post_id = ?;";
         String sql = "insert into likePost(username, post_id) values (?, ?);";
         String updateSql = "update post set numLikes = numLikes + 1 where id = ?;";
-        jdbcTemplate.update(sql, username, id);
-        jdbcTemplate.update(updateSql, id);
+        String minusSql = "update post set numLikes = numLikes - 1 where id = ?;";
+        String deleteSql = "delete from likePost where username = ? and post_id = ?;";
+        List<Integer> ids = jdbcTemplate.query(checkSql, (rs, rowNum) -> Integer.valueOf(rs.getInt("id")), username, id);
+        if(ids.isEmpty()) {
+            jdbcTemplate.update(sql, username, id);
+            jdbcTemplate.update(updateSql, id);
+        } else {
+            jdbcTemplate.update(deleteSql, username, id);
+            jdbcTemplate.update(minusSql, id);
+        }
         return true;
     }
 
@@ -107,11 +116,21 @@ public class CommunityRepository {
     }
 
     public boolean likeComment(int postId, int commentId, String username) {
-        System.out.println(username);
+        String checkSql = "select id from likeComment where username = ? and post_id = ? and comment_id = ?;";
         String sql = "insert into likeComment(username, post_id, comment_id) values (?, ?, ?);";
         String updateSql = "update comment set numLikes = numLikes + 1 where id = ?;";
-        jdbcTemplate.update(sql, username, postId, commentId);
-        jdbcTemplate.update(updateSql, commentId);
+        String minusSql = "update comment set numLikes = numLikes - 1 where id = ?;";
+        String deleteSql = "delete from likeComment where username = ? and post_id = ? and comment_id = ?;";
+        List<Integer> ids = jdbcTemplate.query(checkSql, (rs, rowNum) -> {
+            return Integer.valueOf(rs.getInt("id"));
+        }, username, postId, commentId);
+        if(ids.isEmpty()) {
+            jdbcTemplate.update(sql, username, postId, commentId);
+            jdbcTemplate.update(updateSql, commentId);
+        }else {
+            jdbcTemplate.update(deleteSql, username, postId, commentId);
+            jdbcTemplate.update(minusSql, commentId);
+        }
         return true;
     }
 }

@@ -33,7 +33,7 @@ public class S3Controller {
     }
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
-    @PostMapping(value = "/user/generate", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(value = "/user/generate")
     public boolean uploadFile(
             @RequestPart(value = "mediaInfo") MediaInfo mediaInfo,
             @RequestPart(value = "file", required = false) MultipartFile file

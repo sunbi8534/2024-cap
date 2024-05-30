@@ -6,6 +6,7 @@ import cap.capServer.Service.S3Uploader;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,8 +42,9 @@ public class S3Controller {
         String fileName = "";
         if(file != null){ // 파일 업로드한 경우에만
             try{// 파일 업로드
+                List<String> tags = new ArrayList<>();
                 s3Uploader.upload(file, "file", mediaInfo.getUsername(), mediaInfo.getMediaTitle(), mediaInfo.getMediaMode()
-                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), mediaInfo.getTags()); // S3 버킷의 file 디렉토리 안에 저장됨
+                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), tags); // S3 버킷의 file 디렉토리 안에 저장됨
             }catch (IOException e){
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package cap.capServer.Service;
 
+import cap.capServer.Dto.SendDto;
 import cap.capServer.Repository.S3Repository;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
@@ -60,13 +61,19 @@ public class S3Uploader {
             id = s3Repository.saveFileURL(mediaTitle, mediaMode, uploadFileUrl, nickname);
             s3Repository.saveTags(id, tags);
         }
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("s3_url", uploadFileUrl);
-        requestBody.put("user", nickname);
-        requestBody.put("instrument", instrument);
-        requestBody.put("content_name", content_name);
+        SendDto dto = new SendDto();
+        dto.setUser(nickname);
+        dto.setInstrument(instrument);
+        dto.setS3_url(uploadFileUrl);
+        dto.setContent_name(content_name);
+//
+//        Map<String, Object> requestBody = new HashMap<>();
+//        requestBody.put("s3_url", uploadFileUrl);
+//        requestBody.put("user", nickname);
+//        requestBody.put("instrument", instrument);
+//        requestBody.put("content_name", content_name);
 
-        webClientService.sendPostRequestAsync(id, requestBody);
+        webClientService.sendPostRequestAsync(id, dto);
         removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨
     }
 

@@ -1,9 +1,11 @@
 package cap.capServer.Service;
 
+import cap.capServer.Dto.SendDto;
 import cap.capServer.Repository.S3Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -18,11 +20,11 @@ public class WebClientService {
         this.s3Repository = s3Repository;
     }
 
-    public void sendPostRequestAsync(int id, Map<String, Object> requestBody) {
+    public void sendPostRequestAsync(int id, SendDto requestBody) {
         CompletableFuture.runAsync(() -> {
             webClient.post()
                     .uri("/start_generation")
-                    .bodyValue(requestBody)
+                    .body(Mono.just(requestBody), SendDto.class)
                     .retrieve()
                     .bodyToMono(String.class)
                     .subscribe(response -> {

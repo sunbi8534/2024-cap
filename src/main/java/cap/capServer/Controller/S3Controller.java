@@ -33,7 +33,7 @@ public class S3Controller {
     }
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
-    @PostMapping(value = "/user/generate")
+    @PostMapping(value = "/user/generate", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public boolean uploadFile(
             @RequestPart(value = "mediaInfo") MediaInfo mediaInfo,
             @RequestPart(value = "file", required = false) MultipartFile file
@@ -42,9 +42,8 @@ public class S3Controller {
         String fileName = "";
         if(file != null){ // 파일 업로드한 경우에만
             try{// 파일 업로드
-                List<String> tags = new ArrayList<>();
                 s3Uploader.upload(file, "file", mediaInfo.getUsername(), mediaInfo.getMediaTitle(), mediaInfo.getMediaMode()
-                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), tags); // S3 버킷의 file 디렉토리 안에 저장됨
+                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), mediaInfo.getTags()); // S3 버킷의 file 디렉토리 안에 저장됨
             }catch (IOException e){
                 e.printStackTrace();
             }

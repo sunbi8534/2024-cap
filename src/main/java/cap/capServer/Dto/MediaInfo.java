@@ -16,4 +16,5 @@ public class MediaInfo {
     String instrument;
     String content_name;
 
+    List<String> tags;
 }

@@ -21,12 +21,12 @@ public class WebClientService {
         this.s3Repository = s3Repository;
     }
 
-    public void sendPostRequestAsync(int id, SendDto requestBody) {
+    public void sendPostRequestAsync(int id, Map<String, Object> requestBody) {
         CompletableFuture.runAsync(() -> {
             webClient.post()
                     .uri("/start_generation")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(Mono.just(requestBody), SendDto.class)
+                    .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
                     .subscribe(response -> {

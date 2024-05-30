@@ -20,7 +20,7 @@ public class UserService {
         return userRepository.getMusicProgress(nickname);
     }
 
-    public GetMusicResponse getMusicUrl(String nickname, String fileName) {
-        return userRepository.getMusicUrl(nickname, fileName);
+    public String getMusicUrl(int id) {
+        return userRepository.getMusicUrl(id);
     }
 }

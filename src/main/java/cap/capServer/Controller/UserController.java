@@ -27,9 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/user/music")
-    public GetMusicResponse getMusicUrl(@RequestParam String username, String music) {
-        System.out.println(username);
-        System.out.println(music);
-        return userService.getMusicUrl(username, music);
+    public String getMusicUrl(@RequestParam int id) {
+        return userService.getMusicUrl(id);
     }
 }

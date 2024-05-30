@@ -19,6 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,31 +29,45 @@ import java.util.Optional;
 public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
     private S3Repository s3Repository;
+    private WebClientService webClientService;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Autowired
-    public S3Uploader(AmazonS3Client amazonS3Client, S3Repository s3Repository) {
+    public S3Uploader(AmazonS3Client amazonS3Client,
+                      S3Repository s3Repository,
+                      WebClientService webClientService) {
         this.amazonS3Client = amazonS3Client;
         this.s3Repository = s3Repository;
+        this.webClientService = webClientService;
     }
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName, String nickname) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
+    public void upload(MultipartFile multipartFile, String dirName,
+                         String nickname, String mediaTitle, String mediaMode, String instrument, String content_name,
+                         List<String> tags) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        return upload(uploadFile, dirName, nickname);
+        upload(uploadFile, dirName, nickname, mediaTitle, mediaMode, tags, instrument, content_name);
     }
 
-    private String upload(File uploadFile, String dirName, String nickname) {
+    private void upload(File uploadFile, String dirName, String nickname, String mediaTitle, String mediaMode,
+                        List<String> tags, String instrument, String content_name) {
         String fileName = dirName + "/" + uploadFile.getName();
         String uploadFileUrl = putS3(uploadFile, fileName);
+        int id = 0;
         if (uploadFileUrl != null) {
-            s3Repository.saveFileURL(uploadFile.getName(), uploadFileUrl, nickname);
+            id = s3Repository.saveFileURL(mediaTitle, mediaMode, uploadFileUrl, nickname);
+            s3Repository.saveTags(id, tags);
         }
-        removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("s3_url", uploadFileUrl);
+        requestBody.put("user", nickname);
+        requestBody.put("instrument", instrument);
+        requestBody.put("content_name", content_name);
 
-        return uploadFileUrl;      // 업로드된 파일의 S3 URL 주소 반환
+        webClientService.sendPostRequestAsync(id, requestBody);
+        removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨
     }
 
     private String putS3(File uploadFile, String fileName) {

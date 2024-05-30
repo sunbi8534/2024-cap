@@ -9,7 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RequestPostDto {
     String username;
+    int mediaId;
     String mediaTitle;
+    String mediaType;
     String postTitle;
     String postContent;
 }

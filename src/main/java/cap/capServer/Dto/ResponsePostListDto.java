@@ -11,6 +11,7 @@ public class ResponsePostListDto {
     int id;
     String username;
     String mediaTitle;
+    String mediaType;
     String postTitle;
     int numLikes;
     boolean hasLiked;

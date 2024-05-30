@@ -7,10 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class   MusicListDto {
+public class PostDto {
     int id;
-    String title;
-    boolean progress;
+    String mediaMode;
     String url;
-    String mediaType;
 }

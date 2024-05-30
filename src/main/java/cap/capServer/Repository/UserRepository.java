@@ -21,19 +21,22 @@ public class UserRepository {
     }
 
     public List<MusicListDto> getMusicProgress(String nickname) {
-        String sql = "select id, filename, progress from url where nickname = ?;";
-        List<MusicListDto> musicList = jdbcTemplate.query(sql, (rs, rowNum) -> {
-            return new MusicListDto(rs.getInt("id"), rs.getString("filename"), rs.getBoolean("progress"));
-        }, nickname);
+        String sql = "select id, mediaTitle, url, progress, mediaType from url where nickname = ?;";
+        List<MusicListDto> musicList = jdbcTemplate.query(sql, (rs, rowNum) -> new MusicListDto(rs.getInt("id"), rs.getString("mediaTitle"),
+                rs.getBoolean("progress"), rs.getString("url"), rs.getString("mediaType")), nickname);
 
-        return musicList;
+        for(MusicListDto dto : musicList) {
+            if(!dto.isProgress())
+                dto.setUrl(null);
+        }
+         return musicList;
     }
 
-    public GetMusicResponse getMusicUrl(String nickname, String musicName) {
-        String sql = "select url from url where nickname = ? and filename = ?;";
-        List<GetMusicResponse> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
-            return new GetMusicResponse(musicName, rs.getString("url"));
-        }, nickname, musicName);
+    public String getMusicUrl(int id) {
+        String sql = "select url from url where id = ?;";
+        List<String> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return rs.getString("url");
+        }, id);
 
         return urls.get(0);
     }

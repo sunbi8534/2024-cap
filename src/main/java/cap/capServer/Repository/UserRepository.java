@@ -21,9 +21,9 @@ public class UserRepository {
     }
 
     public List<MusicListDto> getMusicProgress(String nickname) {
-        String sql = "select id, mediaTitle, url, progress, mediaType from url where nickname = ?;";
+        String sql = "select id, mediaTitle, url, progress, mediaMode from url where nickname = ?;";
         List<MusicListDto> musicList = jdbcTemplate.query(sql, (rs, rowNum) -> new MusicListDto(rs.getInt("id"), rs.getString("mediaTitle"),
-                rs.getBoolean("progress"), rs.getString("url"), rs.getString("mediaType")), nickname);
+                rs.getBoolean("progress"), rs.getString("url"), rs.getString("mediaMode")), nickname);
 
         for(MusicListDto dto : musicList) {
             if(!dto.isProgress())

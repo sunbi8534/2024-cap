@@ -45,7 +45,7 @@ public class CommunityController {
         return communityService.writeComment(postId, writeCommentDto);
     }
 
-    @PostMapping("/test")
+    @PostMapping("/community/test")
     public String test(@RequestBody SendDto dto) {
         System.out.println(dto.getUser());
         System.out.println(dto.getInstrument());

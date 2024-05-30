@@ -24,7 +24,7 @@ public class WebClientService {
     public void sendPostRequestAsync(int id, Map<String, Object> requestBody) {
         CompletableFuture.runAsync(() -> {
             webClient.post()
-                    .uri("/test")
+                    .uri("/community/test")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(requestBody)
                     .retrieve()

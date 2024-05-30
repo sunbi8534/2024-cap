@@ -2,6 +2,7 @@ package cap.capServer.Service;
 
 import cap.capServer.Dto.SendDto;
 import cap.capServer.Repository.S3Repository;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,6 +25,7 @@ public class WebClientService {
         CompletableFuture.runAsync(() -> {
             webClient.post()
                     .uri("/start_generation")
+                    .contentType(MediaType.APPLICATION_JSON)
                     .body(Mono.just(requestBody), SendDto.class)
                     .retrieve()
                     .bodyToMono(String.class)

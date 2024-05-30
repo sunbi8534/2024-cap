@@ -17,14 +17,14 @@ public class WebClientService {
     private S3Repository s3Repository;
 
     public WebClientService(WebClient.Builder webClientBuilder, S3Repository s3Repository) {
-        this.webClient = webClientBuilder.baseUrl("http://106.248.38.71:40729").build();
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
         this.s3Repository = s3Repository;
     }
 
     public void sendPostRequestAsync(int id, Map<String, Object> requestBody) {
         CompletableFuture.runAsync(() -> {
             webClient.post()
-                    .uri("/start_generation")
+                    .uri("/test")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(requestBody)
                     .retrieve()

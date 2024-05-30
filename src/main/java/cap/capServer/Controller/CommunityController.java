@@ -45,6 +45,16 @@ public class CommunityController {
         return communityService.writeComment(postId, writeCommentDto);
     }
 
+    @PostMapping("/test")
+    public String test(@RequestBody SendDto dto) {
+        System.out.println(dto.getUser());
+        System.out.println(dto.getInstrument());
+        System.out.println(dto.getS3_url());
+        System.out.println(dto.getContent_name());
+        return "hello";
+    }
+
+
     @PostMapping("/community/likeComment")
     public boolean likeComment(@RequestParam int postId, @RequestParam int commentId,
                                @RequestParam String username) {

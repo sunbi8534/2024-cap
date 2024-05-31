@@ -7,6 +7,8 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -56,10 +59,12 @@ public class S3Uploader {
                         List<String> tags, String instrument, String content_name) {
         String fileName = dirName + "/" + uploadFile.getName();
         String uploadFileUrl = putS3(uploadFile, fileName);
-        int id = 0;
+        int id;
         if (uploadFileUrl != null) {
             id = s3Repository.saveFileURL(mediaTitle, mediaMode, uploadFileUrl, nickname);
             s3Repository.saveTags(id, tags);
+        } else {
+            id = 0;
         }
 //        SendDto dto = new SendDto();
 //        dto.setUser(nickname);
@@ -77,7 +82,25 @@ public class S3Uploader {
         System.out.println(nickname);
         System.out.println(instrument);
         System.out.println(content_name);
-        webClientService.sendPostRequestAsync(id, requestBody);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = "";
+        try {
+            jsonString = objectMapper.writeValueAsString(requestBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        String targetUrl = "http://106.248.38.71:40729/test";
+        CompletableFuture<String> futureResponse = webClientService.sendPostRequestAsync(targetUrl, jsonString);
+        // 비동기 응답 처리
+        futureResponse.thenAccept(response -> {
+            s3Repository.saveGeneratedUrl(id, response);
+            System.out.println("Response: " + response);
+        }).exceptionally(ex -> {
+            System.err.println("Request failed: " + ex.getMessage());
+            return null;
+        });
+
         removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨
     }
 

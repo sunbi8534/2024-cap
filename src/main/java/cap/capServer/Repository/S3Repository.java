@@ -40,10 +40,8 @@ public class S3Repository {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(result.get("url"));
-        System.out.println(result.get("url").getClass());
         String updateSql = "update url set url = ?, progress = true where id = ?;";
-        jdbcTemplate.update(updateSql, url, result.get("url"));
+        jdbcTemplate.update(updateSql, result.get("url"), id);
     }
 
     public void saveTags(int id, List<String> tags) {

@@ -23,7 +23,7 @@ public class S3Repository {
     }
     public int saveFileURL(String mediaTitle, String mediaMode, String fileURL, String nickname) {
         String insertSql = "insert into url(mediaTitle, mediaMode, nickname, url, progress) values (?, ?, ?, ?, ?);";
-        jdbcTemplate.update(insertSql, mediaTitle, mediaMode, nickname, fileURL, false);
+        jdbcTemplate.update(insertSql, mediaTitle, mediaMode, nickname, fileURL, true);
         String getSql = "select id from url where url = ?;";
         List<Integer> id = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return Integer.valueOf(rs.getInt("id"));
@@ -40,7 +40,7 @@ public class S3Repository {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        String updateSql = "update url set url = ?, progress = true where id = ?;";
+        String updateSql = "update url set url = ?, progress = false where id = ?;";
         jdbcTemplate.update(updateSql, result.get("url"), id);
     }
 

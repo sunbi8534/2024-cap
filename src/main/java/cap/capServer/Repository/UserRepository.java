@@ -37,6 +37,8 @@ public class UserRepository {
         List<String> urls = jdbcTemplate.query(sql, (rs, rowNum) -> {
             return rs.getString("url");
         }, id);
+        System.out.println(id);
+        System.out.println(urls.get(0));
 
         return urls.get(0);
     }

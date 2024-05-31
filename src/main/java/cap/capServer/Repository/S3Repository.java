@@ -40,7 +40,7 @@ public class S3Repository {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        String updateSql = "update url set url = ? and progress = true where id = ?;";
+        String updateSql = "update url set url = ?, progress = true where id = ?;";
         jdbcTemplate.update(updateSql, url, result.get("url"));
     }
 

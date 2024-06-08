@@ -17,26 +17,26 @@ public class CommunityRepository {
     }
 
     public String post(RequestPostDto postDto) {
-        String getMediaUrlSql = "select id, mediaMode, url from url where id = ?;";
+        String getMediaUrlSql = "select id, mediaMode, url, imageUrl from url where id = ?;";
         List<PostDto> postDtos = jdbcTemplate.query(getMediaUrlSql, (rs, rowNum) -> {
-            return new PostDto(rs.getInt("id"), rs.getString("mediaMode"), rs.getString("url"));
+            return new PostDto(rs.getInt("id"), rs.getString("mediaMode"), rs.getString("url"), rs.getString("imageUrl"));
         }, postDto.getMediaId());
         String insertSql = "insert into post(username, mediaID, mediaTitle, mediaType, postTitle" +
-                ", postContent, mediaURL, numLikes, numComments) " +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                ", postContent, mediaURL, imageURL, numLikes, numComments) " +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PostDto urlInfo = postDtos.get(0);
 
         jdbcTemplate.update(insertSql, postDto.getUsername(), urlInfo.getId(), postDto.getMediaTitle(), urlInfo.getMediaMode()
-                , postDto.getPostTitle(), postDto.getPostContent(), urlInfo.getUrl(), 0, 0);
+                , postDto.getPostTitle(), postDto.getPostContent(), urlInfo.getUrl(), urlInfo.getImageUrl(), 0, 0);
 
         return "true";
     }
 
     public List<ResponsePostListDto> getPosts(String username) {
-        String getSql = "select id, username, mediaTitle, mediaType, postTitle, numLikes, numComments from post;";
+        String getSql = "select id, username, mediaTitle, mediaType, imageURL, postTitle, numLikes, numComments from post;";
         List<ResponsePostListDto> posts = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return new ResponsePostListDto(rs.getInt("id"), rs.getString("username"),
-                    rs.getString("mediaTitle"), rs.getString("mediaType"), rs.getString("postTitle"), rs.getInt("numLikes"),
+                    rs.getString("mediaTitle"), rs.getString("mediaType"), rs.getString("imageURL"), rs.getString("postTitle"), rs.getInt("numLikes"),
                     false, rs.getInt("numComments"));
         });
 
@@ -53,10 +53,10 @@ public class CommunityRepository {
     }
 
     public ResponsePostDto getPost(int id, String username) {
-        String getSql = "select username, mediaTitle, postTitle, mediaType, postContent, mediaURL, numLikes from post where id = ?;";
+        String getSql = "select username, mediaTitle, postTitle, mediaType, imageURL, postContent, mediaURL, numLikes from post where id = ?;";
         List<GetPostInfoDto> post = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return new GetPostInfoDto(id, rs.getString("username"), rs.getString("mediaTitle"),
-                    rs.getString("postTitle"), rs.getString("mediaType"), rs.getString("postContent"), rs.getString("mediaURL"),
+                    rs.getString("postTitle"), rs.getString("mediaType"), rs.getString("imageURL"), rs.getString("postContent"), rs.getString("mediaURL"),
                     rs.getInt("numLikes"), false);
         }, id);
 

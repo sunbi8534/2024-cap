@@ -21,9 +21,9 @@ public class S3Repository {
     public S3Repository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public int saveFileURL(String mediaTitle, String mediaMode, String fileURL, String nickname) {
-        String insertSql = "insert into url(mediaTitle, mediaMode, nickname, url, progress) values (?, ?, ?, ?, ?);";
-        jdbcTemplate.update(insertSql, mediaTitle, mediaMode, nickname, fileURL, true);
+    public int saveFileURL(String mediaTitle, String mediaMode, String fileURL, String imageURL, String nickname) {
+        String insertSql = "insert into url(mediaTitle, mediaMode, nickname, url, imageUrl, progress) values (?, ?, ?, ?, ?, ?);";
+        jdbcTemplate.update(insertSql, mediaTitle, mediaMode, nickname, fileURL, imageURL, true);
         String getSql = "select id from url where url = ?;";
         List<Integer> id = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return Integer.valueOf(rs.getInt("id"));

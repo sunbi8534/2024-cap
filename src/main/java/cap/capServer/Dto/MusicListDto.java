@@ -13,4 +13,5 @@ public class MusicListDto {
     boolean progress;
     String url;
     String mediaType;
+    String coverImageUrl;
 }

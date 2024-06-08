@@ -47,21 +47,25 @@ public class S3Uploader {
     }
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public void upload(MultipartFile multipartFile, String dirName,
+    public void upload(MultipartFile multipartFile, MultipartFile coverImageFile, String dirName,
                          String nickname, String mediaTitle, String mediaMode, String instrument, String content_name,
                          List<String> tags) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        upload(uploadFile, dirName, nickname, mediaTitle, mediaMode, tags, instrument, content_name);
+        File imageFile = convert(multipartFile)
+                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> imageFile 전환 실패"));
+        upload(uploadFile, imageFile, dirName, nickname, mediaTitle, mediaMode, tags, instrument, content_name);
     }
 
-    private void upload(File uploadFile, String dirName, String nickname, String mediaTitle, String mediaMode,
+    private void upload(File uploadFile, File imageFile, String dirName, String nickname, String mediaTitle, String mediaMode,
                         List<String> tags, String instrument, String content_name) {
         String fileName = dirName + "/" + uploadFile.getName();
         String uploadFileUrl = putS3(uploadFile, fileName);
+        String imageName = dirName + "/" + imageFile.getName();
+        String uploadImageUrl = putS3(imageFile, imageName);
         int id;
         if (uploadFileUrl != null) {
-            id = s3Repository.saveFileURL(mediaTitle, mediaMode, uploadFileUrl, nickname);
+            id = s3Repository.saveFileURL(mediaTitle, mediaMode, uploadFileUrl, uploadImageUrl, nickname);
             s3Repository.saveTags(id, tags);
         } else {
             id = 0;

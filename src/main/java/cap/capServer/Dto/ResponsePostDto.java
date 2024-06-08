@@ -15,6 +15,7 @@ public class ResponsePostDto {
     String mediaTitle;
     String postTitle;
     String mediaType;
+    String coverImageUrl;
     String postContent;
     String mediaURL;
     int numLikes;
@@ -28,6 +29,7 @@ public class ResponsePostDto {
         postTitle = infoDto.getPostTitle();
         postContent = infoDto.getPostContent();
         mediaURL = infoDto.getMediaURL();
+        coverImageUrl = infoDto.getCoverImageUrl();
         numLikes = infoDto.getNumLikes();
         hasLiked = false;
         commentList = null;

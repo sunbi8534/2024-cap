@@ -13,6 +13,7 @@ public class GetPostInfoDto {
     String mediaTitle;
     String postTitle;
     String mediaType;
+    String coverImageUrl;
     String postContent;
     String mediaURL;
     int numLikes;

@@ -29,13 +29,14 @@ public class S3Controller {
     @PostMapping(value = "/user/generate")
     public boolean uploadFile(
             @RequestPart(value = "mediaInfo") MediaInfo mediaInfo,
-            @RequestPart(value = "file", required = false) MultipartFile file
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "coverImageFile", required = false) MultipartFile coverImageFile
             ) {
 
         String fileName = "";
         if(file != null){ // 파일 업로드한 경우에만
             try{// 파일 업로드
-                s3Uploader.upload(file, "file", mediaInfo.getUsername(), mediaInfo.getMediaTitle(), mediaInfo.getMediaMode()
+                s3Uploader.upload(file, coverImageFile, "file", mediaInfo.getUsername(), mediaInfo.getMediaTitle(), mediaInfo.getMediaMode()
                         , mediaInfo.getInstrument(), mediaInfo.getContent_name(), mediaInfo.getTags()); // S3 버킷의 file 디렉토리 안에 저장됨
             }catch (IOException e){
                 e.printStackTrace();

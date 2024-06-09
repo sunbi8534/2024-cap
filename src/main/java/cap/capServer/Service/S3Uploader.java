@@ -52,7 +52,7 @@ public class S3Uploader {
                          List<String> tags) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        File imageFile = convert(multipartFile)
+        File imageFile = convert(coverImageFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> imageFile 전환 실패"));
         upload(uploadFile, imageFile, dirName, nickname, mediaTitle, mediaMode, tags, instrument, content_name);
     }

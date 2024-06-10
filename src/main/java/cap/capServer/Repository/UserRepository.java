@@ -35,7 +35,7 @@ public class UserRepository {
             String[] tag = tagInfo.split(",");
             List<String> tagRInfo = Arrays.asList(tag);
             dto.setTags(tagRInfo);
-            if(!dto.isProgress()) {
+            if(dto.isProgress()) {
                 dto.setMediaUrl(null);
                 dto.setMediaUrl2(null);
             }

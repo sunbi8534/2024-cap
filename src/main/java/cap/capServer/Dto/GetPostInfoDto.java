@@ -16,6 +16,7 @@ public class GetPostInfoDto {
     String coverImageUrl;
     String postContent;
     String mediaURL;
+    String mediaURL2;
     int numLikes;
     boolean hasLiked;
 }

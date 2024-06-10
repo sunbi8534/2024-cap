@@ -15,17 +15,17 @@ public class CommunityRepository {
     }
 
     public String post(RequestPostDto postDto) {
-        String getMediaUrlSql = "select id, mediaMode, url, imageUrl from url where id = ?;";
+        String getMediaUrlSql = "select id, mediaMode, url, url2, imageUrl from url where id = ?;";
         List<PostDto> postDtos = jdbcTemplate.query(getMediaUrlSql, (rs, rowNum) -> {
-            return new PostDto(rs.getInt("id"), rs.getString("mediaMode"), rs.getString("url"), rs.getString("imageUrl"));
+            return new PostDto(rs.getInt("id"), rs.getString("mediaMode"), rs.getString("url"), rs.getString("url2"), rs.getString("imageUrl"));
         }, postDto.getMediaId());
         String insertSql = "insert into post(username, mediaID, mediaTitle, mediaType, postTitle" +
-                ", postContent, mediaURL, imageURL, numLikes, numComments) " +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                ", postContent, mediaURL, mediaURL2, imageURL, numLikes, numComments) " +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PostDto urlInfo = postDtos.get(0);
 
         jdbcTemplate.update(insertSql, postDto.getUsername(), urlInfo.getId(), postDto.getMediaTitle(), urlInfo.getMediaMode()
-                , postDto.getPostTitle(), postDto.getPostContent(), urlInfo.getUrl(), urlInfo.getImageUrl(), 0, 0);
+                , postDto.getPostTitle(), postDto.getPostContent(), urlInfo.getUrl(), urlInfo.getUrl2(), urlInfo.getImageUrl(), 0, 0);
 
         return "true";
     }
@@ -51,11 +51,11 @@ public class CommunityRepository {
     }
 
     public ResponsePostDto getPost(int id, String username) {
-        String getSql = "select username, mediaTitle, postTitle, mediaType, imageURL, postContent, mediaURL, numLikes from post where id = ?;";
+        String getSql = "select username, mediaTitle, postTitle, mediaType, imageURL, postContent, mediaURL, mediaURL2, numLikes from post where id = ?;";
         List<GetPostInfoDto> post = jdbcTemplate.query(getSql, (rs, rowNum) -> {
             return new GetPostInfoDto(id, rs.getString("username"), rs.getString("mediaTitle"),
                     rs.getString("postTitle"), rs.getString("mediaType"), rs.getString("imageURL"), rs.getString("postContent"), rs.getString("mediaURL"),
-                    rs.getInt("numLikes"), false);
+                    rs.getString("mediaURL2"), rs.getInt("numLikes"), false);
         }, id);
 
         ResponsePostDto responsePostDto = new ResponsePostDto(post.get(0));

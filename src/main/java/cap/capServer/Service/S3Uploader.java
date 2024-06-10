@@ -10,6 +10,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -98,7 +100,16 @@ public class S3Uploader {
         CompletableFuture<String> futureResponse = webClientService.sendPostRequestAsync(targetUrl, jsonString);
         // 비동기 응답 처리
         futureResponse.thenAccept(response -> {
-            s3Repository.saveGeneratedUrl(id, response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String url = jsonObject.getString("url");
+                String url2 = jsonObject.getString("url2");
+                s3Repository.saveGeneratedUrl(id, url, url2);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
             System.out.println("Response: " + response);
         }).exceptionally(ex -> {
             System.err.println("Request failed: " + ex.getMessage());

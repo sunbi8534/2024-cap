@@ -17,7 +17,8 @@ public class ResponsePostDto {
     String mediaType;
     String coverImageUrl;
     String postContent;
-    String mediaURL;
+    String mediaUrl;
+    String mediaUrl2;
     int numLikes;
     boolean hasLiked;
     List<CommentListDto> commentList;
@@ -28,7 +29,8 @@ public class ResponsePostDto {
         mediaTitle = infoDto.getMediaTitle();
         postTitle = infoDto.getPostTitle();
         postContent = infoDto.getPostContent();
-        mediaURL = infoDto.getMediaURL();
+        mediaUrl = infoDto.getMediaURL();
+        mediaUrl2 = infoDto.getMediaURL2();
         coverImageUrl = infoDto.getCoverImageUrl();
         numLikes = infoDto.getNumLikes();
         hasLiked = false;

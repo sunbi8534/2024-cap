@@ -32,7 +32,7 @@ public class S3Repository {
         return id.get(0);
     }
 
-    public void saveGeneratedUrl(int id, String url) {
+    public void saveGeneratedUrl(int id, String url, String url2) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> result = new HashMap<>();
         try {
@@ -40,8 +40,8 @@ public class S3Repository {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        String updateSql = "update url set url = ?, progress = false where id = ?;";
-        jdbcTemplate.update(updateSql, result.get("url"), id);
+        String updateSql = "update url set url = ?, url2 = ?, progress = false where id = ?;";
+        jdbcTemplate.update(updateSql, url, url2, id);
     }
 
     public void saveTags(int id, List<String> tags) {

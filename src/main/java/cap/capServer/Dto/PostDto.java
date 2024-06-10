@@ -11,5 +11,6 @@ public class PostDto {
     int id;
     String mediaMode;
     String url;
+    String url2;
     String imageUrl;
 }

@@ -94,7 +94,7 @@ public class S3Uploader {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        String targetUrl = "http://106.248.38.71:40729/start_generation";
+        String targetUrl = "http://112.118.185.174:40094/start_generation";
         CompletableFuture<String> futureResponse = webClientService.sendPostRequestAsync(targetUrl, jsonString);
         // 비동기 응답 처리
         futureResponse.thenAccept(response -> {

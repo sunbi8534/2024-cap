@@ -106,6 +106,7 @@ public class S3Uploader {
         });
 
         removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨
+        removeNewFile(imageFile);
     }
 
     private String putS3(File uploadFile, String fileName) {

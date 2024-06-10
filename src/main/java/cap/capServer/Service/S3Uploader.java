@@ -104,13 +104,13 @@ public class S3Uploader {
                 JSONObject jsonObject = new JSONObject(response);
                 String url = jsonObject.getString("url");
                 String url2 = jsonObject.getString("url2");
+                System.out.println(url);
+                System.out.println(url2);
                 s3Repository.saveGeneratedUrl(id, url, url2);
 
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-
-            System.out.println("Response: " + response);
         }).exceptionally(ex -> {
             System.err.println("Request failed: " + ex.getMessage());
             return null;

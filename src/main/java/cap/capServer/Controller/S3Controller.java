@@ -4,6 +4,7 @@ import cap.capServer.Dto.MediaInfo;
 import cap.capServer.Service.S3Uploader;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -27,6 +28,7 @@ public class S3Controller {
 
     @Operation(summary = "파일 업로드 API", description = "닉네임정보를 받아 파일을 업로드합니다.")
     @PostMapping(value = "/user/generate")
+    @Transactional
     public boolean uploadFile(
             @RequestPart(value = "mediaInfo") MediaInfo mediaInfo,
             @RequestPart(value = "file", required = false) MultipartFile file,

@@ -15,6 +15,6 @@ public class MediaInfo {
     String mediaMode;
     String instrument;
     String content_name;
-
     List<String> tags;
+    int tempo;
 }

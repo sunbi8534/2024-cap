@@ -39,7 +39,7 @@ public class S3Controller {
         if(file != null){ // 파일 업로드한 경우에만
             try{// 파일 업로드
                 s3Uploader.upload(file, coverImageFile, "file", mediaInfo.getUsername(), mediaInfo.getMediaTitle(), mediaInfo.getMediaMode()
-                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), mediaInfo.getTags()); // S3 버킷의 file 디렉토리 안에 저장됨
+                        , mediaInfo.getInstrument(), mediaInfo.getContent_name(), mediaInfo.getTags(), mediaInfo.getTempo()); // S3 버킷의 file 디렉토리 안에 저장됨
             }catch (IOException e){
                 e.printStackTrace();
             }
